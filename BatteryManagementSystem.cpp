@@ -1,6 +1,6 @@
 #include "BatteryManagementSystem.h"
 
-CBatteryManagementSystem::CBatteryManagementSystem():m_bBatteryStatusTemp(false), m_bBatteryStatusSoc(false), m_bBatteryStatusChargeRate(false)
+CBatteryManagementSystem::CBatteryManagementSystem(float temp, float soc, float cr):m_fBatteryTemp(temp), m_fBatterySoc(soc), m_fBatteryChargeRate(cr)
 {
 
 }
@@ -10,56 +10,42 @@ CBatteryManagementSystem::~CBatteryManagementSystem()
 
 }
 
-bool CBatteryManagementSystem::validateMin(float val, float min)
+void CBatteryManagementSystem::updateBatteryParam(float temp, float soc, float cr)
 {
-    if (val < min)
-        return false;
-
-    return true;
-}
-
-bool CBatteryManagementSystem::validateMax(float val, float max)
-{
-    if (val > max)
-        return false;
-
-    return true;
+    m_fBatteryTemp = temp;
+    m_fBatterySoc = soc;
+    m_fBatteryChargeRate = cr;
 }
 
 bool CBatteryManagementSystem::validateBatteryParamTemp(float val)
 {
-    m_bBatteryStatusTemp = validateMin(val, MIN_TEMPERATURE) && validateMax(val, MAX_TEMPERATURE);
-    return m_bBatteryStatusTemp;
+    if ((m_fBatteryTemp < MIN_TEMPERATURE) || (m_fBatteryTemp > MAX_TEMPERATURE) )
+        return false;
+
+    return true;
 }
 
 bool CBatteryManagementSystem::validateBatteryParamSoc(float val)
 {
-    m_bBatteryStatusSoc = validateMin(val, MIN_SOC) && validateMax(val, MAX_SOC);
-    return m_bBatteryStatusSoc;
+    if ( (m_fBatterySoc < MIN_SOC) || (m_fBatterySoc > MAX_SOC) )
+        return false;
+
+    return true;
 }
 
 bool CBatteryManagementSystem::validateBatteryParamChargeRate(float val)
 {
-    m_bBatteryStatusChargeRate = validateMin(val, MIN_CHARGE_RATE) && validateMax(val, MAX_CHARGE_RATE);
-    return m_bBatteryStatusChargeRate;
+    if ((m_fBatteryChargeRate < MIN_CHARGE_RATE) || (m_fBatteryChargeRate > MAX_CHARGE_RATE))
+        return false;
+
+    return true;
 }
 
-bool CBatteryManagementSystem::batteryIsOk(eBmsParams bmsParam, float paramVal)
+bool CBatteryManagementSystem::validateBatteryParam()
 {
     bool status;
 
-    switch (bmsParam)
-    {
-        case TEMPERATURE:
-            status = validateBatteryParamTemp(paramVal);
-            break;
-        case SOC:
-            status = validateBatteryParamSoc(paramVal);
-            break;
-        case CHARGERATE:
-            status = validateBatteryParamChargeRate(paramVal);
-            break;
-    }
+    status = validateBatteryParamTemp(m_fBatteryTemp) && validateBatteryParamSoc(m_fBatterySoc) && validateBatteryParamChargeRate(m_fBatteryChargeRate);
 
     return status;
 }
