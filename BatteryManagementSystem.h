@@ -22,9 +22,9 @@ private:
 public:
 
     CBatteryManagementSystem(float = 0.0, float = 0.0, float = 0.0);
-    bool validateBatteryParamTemp(float );
-    bool validateBatteryParamSoc(float );
-    bool validateBatteryParamChargeRate(float );
+    bool validateBatteryParamTemp();
+    bool validateBatteryParamSoc();
+    bool validateBatteryParamChargeRate();
     void updateBatteryParam(float, float, float);
     bool validateBatteryParam();
     ~CBatteryManagementSystem();

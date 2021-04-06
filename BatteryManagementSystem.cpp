@@ -17,7 +17,7 @@ void CBatteryManagementSystem::updateBatteryParam(float temp, float soc, float c
     m_fBatteryChargeRate = cr;
 }
 
-bool CBatteryManagementSystem::validateBatteryParamTemp(float val)
+bool CBatteryManagementSystem::validateBatteryParamTemp()
 {
     if ((m_fBatteryTemp < MIN_TEMPERATURE) || (m_fBatteryTemp > MAX_TEMPERATURE) )
         return false;
@@ -25,7 +25,7 @@ bool CBatteryManagementSystem::validateBatteryParamTemp(float val)
     return true;
 }
 
-bool CBatteryManagementSystem::validateBatteryParamSoc(float val)
+bool CBatteryManagementSystem::validateBatteryParamSoc()
 {
     if ( (m_fBatterySoc < MIN_SOC) || (m_fBatterySoc > MAX_SOC) )
         return false;
@@ -33,7 +33,7 @@ bool CBatteryManagementSystem::validateBatteryParamSoc(float val)
     return true;
 }
 
-bool CBatteryManagementSystem::validateBatteryParamChargeRate(float val)
+bool CBatteryManagementSystem::validateBatteryParamChargeRate()
 {
     if ((m_fBatteryChargeRate < MIN_CHARGE_RATE) || (m_fBatteryChargeRate > MAX_CHARGE_RATE))
         return false;
@@ -43,10 +43,6 @@ bool CBatteryManagementSystem::validateBatteryParamChargeRate(float val)
 
 bool CBatteryManagementSystem::validateBatteryParam()
 {
-    bool status;
-
-    status = validateBatteryParamTemp(m_fBatteryTemp) && validateBatteryParamSoc(m_fBatterySoc) && validateBatteryParamChargeRate(m_fBatteryChargeRate);
-
-    return status;
+    return (validateBatteryParamTemp() && validateBatteryParamSoc() && validateBatteryParamChargeRate());
 }
 
